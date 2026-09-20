@@ -64,27 +64,47 @@ Project layout:
 
 ```
 hydroponics-research/
-├── index.html          # App structure
+├── index.html          # App structure (nav is built dynamically by the core)
 ├── styles.css          # All styling (CSS variables, responsive)
-├── app.js              # State, rendering, event wiring
 ├── data/               # Config data (the "research")
 │   ├── crops.js        # 8 crops: stages, climate, growth, recipes, issues, sources
 │   ├── presets.js      # Nutrient line presets for the dosing calculator
 │   └── references.js   # Cited sources
 ├── js/
+│   ├── core.js         # Shell: registry-driven nav, render loop, language, storage, boot
+│   ├── registry.js     # Pure layer registry (.create/.register/.all/.get/.has)
+│   ├── shared.js       # Pure cross-layer helpers (crop lookup, options, parsing)
 │   ├── calc.js         # Pure calculation module (no DOM)
 │   ├── journal.js      # Grow journal model: readings, assessments, trends, CSV (no DOM)
 │   ├── i18n.js         # EN/NL UI strings
-│   └── ui.js           # DOM/formatting helpers
+│   ├── ui.js           # DOM/formatting helpers
+│   └── layers/         # Feature layers, one file per tab (registered with the core)
+│       ├── crops.js
+│       ├── journal.js
+│       ├── calculators.js
+│       ├── guide.js
+│       └── references.js
 ├── tests/calc.test.js     # Calculator unit tests (Node)
+├── tests/core.test.js     # Registry + shared helpers unit tests (Node)
 ├── tests/journal.test.js  # Journal unit tests (Node)
 └── qrcode.svg          # QR code for the live URL
 ```
+
+### Architecture
+
+The app is a small shell + layer registry. Each tab is an independent layer
+that `registerLayer`s itself; the core builds the nav from the registry,
+renders the active layer with a context (`{ lang, T, el, helpers, services,
+storage, nav }`) and never touches layer internals. Result panels that need to
+read their own DOM are filled in `mount(ctx)`, called right after the layer is
+attached. Adding a layer = create one file in `js/layers/` and register it;
+the core and other layers stay untouched.
 
 ### Run tests
 
 ```bash
 node tests/calc.test.js
+node tests/core.test.js
 node tests/journal.test.js
 ```
 
