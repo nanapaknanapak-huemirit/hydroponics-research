@@ -3,7 +3,7 @@
 A research-backed reference for growing vegetables and fruit hydroponically:
 per-crop nutrient targets (EC / PPM / pH per growth stage), light, climate,
 growth timelines, nutrient-line recipes and troubleshooting — every value with
-a cited source. Includes four calculators for everyday decisions.
+a cited source. Includes four calculators and a quick-test tool for everyday decisions.
 
 <div align="center">
 
@@ -49,6 +49,10 @@ Per crop:
 - **In-range summary** — "EC in range 3/5" for the latest readings
 - **CSV export** — download the whole journal; your data never leaves the browser
 
+### Testing quick-check
+- **One-measurement test** — pick a crop + stage, enter EC / pH / water / air temp and get an instant in-range status per field against the stage and climate targets
+- **Guidance panels** — meters & calibration, taking a good sample, common reading pitfalls
+
 ### Languages
 - 🇬🇧 English
 - 🇳🇱 Nederlands
@@ -81,6 +85,7 @@ hydroponics-research/
 │   └── layers/         # Feature layers, one file per tab (registered with the core)
 │       ├── crops.js
 │       ├── journal.js
+│       ├── testing.js
 │       ├── calculators.js
 │       ├── guide.js
 │       └── references.js

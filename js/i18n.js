@@ -10,6 +10,7 @@ const UI_STRINGS = {
             crops: 'Crops',
             journal: 'Journal',
             calculators: 'Calculators',
+            testing: 'Testing',
             guide: 'Guide',
             references: 'References'
         },
@@ -194,6 +195,39 @@ const UI_STRINGS = {
                 ph: 'pH'
             }
         },
+        testing: {
+            title: 'Testing',
+            subtitle: 'A quick check of a single measurement against the crop\u2019s stage and climate targets, plus notes on meters and sampling.',
+            crop: 'Crop',
+            stage: 'Stage',
+            ec: 'EC (mS/cm)',
+            ph: 'pH',
+            waterTemp: 'Water temp (\u00b0C)',
+            airTemp: 'Air temp (\u00b0C)',
+            selectHint: 'Pick a crop and stage, then measure. Each test line shows your value against the target and a live status.',
+            summary: '{in} of {total} fields in range',
+            metersTitle: 'Meters & calibration',
+            meters: [
+                { name: 'EC/PPM combo meter', text: 'covers most needs on a single probe; PPM is just a scale conversion, so keep yours and your checks on the same scale.' },
+                { name: 'Separate pH meter', text: 'usually more stable and easier to recalibrate than combo units; store the probe moist in storage solution.' },
+                { name: 'Calibration solutions', text: 'EC against 1413 \u00b5S/cm (or 640/700 PPM) and pH against 7.0 then 4.0; rinse between buffers.' },
+                { name: 'Calibration rhythm', text: 'recalibrate monthly, or anytime a reading looks off or a probe has been dry.' }
+            ],
+            samplingTitle: 'Taking a good sample',
+            sampling: [
+                { name: 'Mid-reservoir sample', text: 'take from the moving solution, not a calm corner; in NFT sample at the drain end.' },
+                { name: 'Probe hygiene', text: 'rinse with clean water between samples and never wipe the pH tip dry.' },
+                { name: 'Measure EC before pH', text: 'both probes stir the sample; EC first keeps the strongest-affected reading clean.' },
+                { name: 'Temperature matters', text: 'EC and pH both drift with temperature \u2014 let the sample sit near solution temperature before trusting a pH reading.' }
+            ],
+            pitfallsTitle: 'Common reading pitfalls',
+            pitfalls: [
+                'Air bubbles against an EC electrode cause jumpy readings \u2014 tap the probe or stir gently.',
+                'Cold solution slows the pH electrode; a reading taken right after top-up can under-shoot.',
+                'Hard source water raises the baseline EC \u2014 subtract your water\u2019s EC before comparing with a crop target.',
+                'A failing probe shows a suspiciously perfect 7.0 or slow drifting values; fresh buffers confirm the culprit.'
+            ]
+        },
         guide: {
             title: 'Guide',
             intro: 'A short grounding in the six numbers that matter most, then how to begin.',
@@ -252,6 +286,7 @@ const UI_STRINGS = {
             crops: 'Gewassen',
             journal: 'Dagboek',
             calculators: 'Calculators',
+            testing: 'Testen',
             guide: 'Gids',
             references: 'Referenties'
         },
@@ -435,6 +470,39 @@ const UI_STRINGS = {
                 ec: 'EC',
                 ph: 'pH'
             }
+        },
+        testing: {
+            title: 'Testen',
+            subtitle: 'Een snelle controle van \u00e9\u00e9n meting tegen de fase- en klimaatdoelen van het gewas, plus notities over meters en bemonstering.',
+            crop: 'Gewas',
+            stage: 'Fase',
+            ec: 'EC (mS/cm)',
+            ph: 'pH',
+            waterTemp: 'Watertemp (\u00b0C)',
+            airTemp: 'Luchttemp (\u00b0C)',
+            selectHint: 'Kies een gewas en fase en meet vervolgens. Elke testregel toont jouw waarde tegen het doel met een live status.',
+            summary: '{in} van {total} velden binnen bereik',
+            metersTitle: 'Meters & kalibratie',
+            meters: [
+                { name: 'EC/PPM-combimeter', text: 'dekt de meeste behoeften met \u00e9\u00e9n sonde; PPM is slechts een schaalomzetting, dus houd je meter en je controles op dezelfde schaal.' },
+                { name: 'Aparte pH-meter', text: 'meestal stabieler en makkelijker te kalibreren dan combi-units; bewaar de sonde vochtig in opslagvloeistof.' },
+                { name: 'Kalibratievloeistoffen', text: 'EC tegen 1413 \u00b5S/cm (of 640/700 PPM) en pH tegen 7,0 en daarna 4,0; spoel tussen de buffers.' },
+                { name: 'Kalibratieritme', text: 'kalibreer maandelijks, of zodra een meting er raar uitziet of een sonde droog is geweest.' }
+            ],
+            samplingTitle: 'Een goede monster nemen',
+            sampling: [
+                { name: 'Monster uit de beweging', text: 'neem uit de bewegende oplossing, niet uit een rustig hoekje; bij NFT bemonster aan het afvoeruiteinde.' },
+                { name: 'Spondehygi\u00ebne', text: 'spoel met schoon water tussen monsters en wrijf de pH-punt nooit droog.' },
+                { name: 'Meet EC v\u00f3\u00f3r pH', text: 'beide sondes roeren de vloeistof; EC eerst houdt de sterkst be\u00efnvloede meting schoon.' },
+                { name: 'Temperatuur telt', text: 'EC en pH drijven allebei met temperatuur \u2014 laat het monster op oplossingstemperatuur komen voordat je een pH-meting vertrouwt.' }
+            ],
+            pitfallsTitle: 'Veelvoorkomende meetfouten',
+            pitfalls: [
+                'Luchtbellen tegen een EC-elektrode geven schokkerige metingen \u2014 tik de sonde of roer zachtjes.',
+                'Koude vloeistof vertraagt de pH-elektrode; een meting vlak na bijvullen kan te laag uitvallen.',
+                'Hard bronwater verhoogt de basis-EC \u2014 trek de EC van je water af v\u00f3\u00f3r je vergelijkt met een gewasdoel.',
+                'Een slechte sonde toont een verdacht perfect 7,0 of langzaam ronddrijvende waarden; verse buffervloeistoffen bevestigen de boosdoener.'
+            ]
         },
         guide: {
             title: 'Gids',
