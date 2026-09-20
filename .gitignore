@@ -1,0 +1,6 @@
+# Local tooling / ephemeral files
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store

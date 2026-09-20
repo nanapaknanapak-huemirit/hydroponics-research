@@ -1,0 +1,454 @@
+/* ============================================================
+   Hydro Research — styling only. Colors via CSS variables.
+   ============================================================ */
+
+:root {
+    --bg: #f4f7f2;
+    --surface: #ffffff;
+    --surface-alt: #eef4ea;
+    --text: #24311f;
+    --text-muted: #5b6b55;
+    --border: #d7e2d0;
+    --accent: #2f7d3a;
+    --accent-soft: #dcecda;
+    --accent-text: #ffffff;
+    --warn: #b3541e;
+    --ok: #1d7a44;
+    --shadow: 0 1px 3px rgba(36, 49, 31, 0.08);
+    --radius: 12px;
+    --space: 16px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 24px 16px 48px;
+}
+
+h1 {
+    margin: 0 0 4px;
+    font-size: 2rem;
+    color: var(--accent);
+}
+
+.subtitle {
+    margin: 0 0 16px;
+    color: var(--text-muted);
+}
+
+/* ---------- header / language ---------- */
+
+header {
+    padding: 8px 0 16px;
+}
+
+.language-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.lang-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-right: 4px;
+}
+
+.lang-btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.lang-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-text);
+}
+
+/* ---------- tabs ---------- */
+
+.nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.nav-tab {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.nav-tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-text);
+    font-weight: 600;
+}
+
+.nav-tab:focus-visible,
+.lang-btn:focus-visible,
+.btn:focus-visible,
+.crop-card:focus-visible,
+.field:focus-visible,
+a:focus-visible {
+    outline: 3px solid var(--accent-soft);
+    outline-offset: 2px;
+}
+
+/* ---------- panels / general ---------- */
+
+.tab-panel {
+    display: block;
+}
+
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: var(--space);
+}
+
+.panel-title {
+    margin: 0 0 12px;
+    color: var(--accent);
+    font-size: 1.15rem;
+}
+
+.note-text {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    margin: 8px 0 0;
+}
+
+.empty-message {
+    color: var(--text-muted);
+    text-align: center;
+    padding: 24px 0;
+}
+
+/* ---------- crop list ---------- */
+
+.crop-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.crop-count {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-left: auto;
+}
+
+.crop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: var(--space);
+}
+
+.crop-card {
+    text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.crop-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(36, 49, 31, 0.12);
+}
+
+.crop-card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.crop-emoji {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.crop-emoji.large {
+    font-size: 3rem;
+}
+
+.crop-card-name {
+    min-width: 0;
+}
+
+.crop-card-name h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.crop-card-latin {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.crop-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.badge {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.crop-card-stat {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.crop-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.crop-detail-header h2 {
+    margin: 0 0 2px;
+    color: var(--accent);
+}
+
+/* ---------- data tables ---------- */
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.data-table th,
+.data-table td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.data-table thead th {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.data-table tr:last-child td,
+.data-table tr:last-child th {
+    border-bottom: none;
+}
+
+.data-table.kv th {
+    width: 45%;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* ---------- recipe / issues ---------- */
+
+.recipe-line {
+    margin: 10px 0 4px;
+}
+
+.recipe-parts,
+.source-list {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+}
+
+.recipe-parts li,
+.source-list li {
+    margin-bottom: 4px;
+}
+
+.npk-ratio {
+    margin: 0 0 4px;
+}
+
+.issue-card {
+    background: var(--surface-alt);
+    border-left: 4px solid var(--warn);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 10px;
+}
+
+.issue-title {
+    margin: 0 0 6px;
+    color: var(--warn);
+}
+
+.issue-row {
+    margin: 4px 0;
+    font-size: 0.92rem;
+}
+
+.source-meta {
+    color: var(--text-muted);
+}
+
+/* ---------- fields ---------- */
+
+.field-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.field-label {
+    flex: 0 0 210px;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+}
+
+.field {
+    flex: 1 1 200px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 1rem;
+    background: var(--surface);
+    color: var(--text);
+}
+
+.field:focus {
+    outline: 3px solid var(--accent-soft);
+    border-color: var(--accent);
+}
+
+.btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-text);
+    font-weight: 600;
+}
+
+.btn.ghost {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--accent);
+    margin-bottom: 12px;
+}
+
+/* ---------- calculator results ---------- */
+
+.calc-results {
+    margin: 14px 0 4px;
+    padding-top: 6px;
+}
+
+.calc-result-title {
+    margin: 0 0 6px;
+    color: var(--accent);
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 2px;
+    border-bottom: 1px dashed var(--border);
+}
+
+.status-pill {
+    display: inline-block;
+    margin-top: 10px;
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 0.85rem;
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+/* ---------- footer ---------- */
+
+footer {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.disclaimer {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* ---------- responsive / motion ---------- */
+
+@media (max-width: 640px) {
+    .field-label {
+        flex-basis: auto;
+        width: 100%;
+    }
+
+    .crop-toolbar .crop-count {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .crop-card {
+        transition: none;
+    }
+}

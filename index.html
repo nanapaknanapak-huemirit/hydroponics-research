@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydro Research</title>
+    <meta name="description" content="Hydroponic growing data and calculators for home growers: EC, pH, PPM, DLI, nutrient dosing and crop planning with cited sources.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="app-title">Hydro Research</h1>
+            <p class="subtitle" id="app-subtitle">Hydroponic growing data &amp; calculators for home growers</p>
+            <div class="language-selector">
+                <span class="lang-label" id="lang-label">Language</span>
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="nl">NL</button>
+            </div>
+        </header>
+
+        <nav class="nav-tabs" aria-label="Main navigation">
+            <button class="nav-tab active" data-tab="crops" data-nav-label="crops">Crops</button>
+            <button class="nav-tab" data-tab="calculators" data-nav-label="calculators">Calculators</button>
+            <button class="nav-tab" data-tab="guide" data-nav-label="guide">Guide</button>
+            <button class="nav-tab" data-tab="references" data-nav-label="references">References</button>
+        </nav>
+
+        <main id="app" aria-live="polite"></main>
+
+        <footer>
+            <p class="disclaimer" id="footer-disclaimer">Values are research-based starting points. Adjust to your water, cultivar, system and climate.</p>
+        </footer>
+    </div>
+
+    <script src="data/references.js"></script>
+    <script src="data/presets.js"></script>
+    <script src="data/crops.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/calc.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
