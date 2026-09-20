@@ -11,6 +11,7 @@ const UI_STRINGS = {
             journal: 'Journal',
             calculators: 'Calculators',
             testing: 'Testing',
+            calibration: 'Calibration',
             guide: 'Guide',
             references: 'References'
         },
@@ -228,6 +229,43 @@ const UI_STRINGS = {
                 'A failing probe shows a suspiciously perfect 7.0 or slow drifting values; fresh buffers confirm the culprit.'
             ]
         },
+        calibration: {
+            title: 'Calibration',
+            subtitle: 'Track when your meters were last calibrated and follow a quick routine to keep readings trustworthy.',
+            statusTitle: 'Meter status',
+            ecMeter: 'EC meter',
+            phMeter: 'pH meter',
+            never: 'Never calibrated',
+            calibratedToday: 'Calibrated today',
+            daysAgo: '{days} days ago',
+            calibrateBtn: 'Calibrate',
+            status: {
+                ok: 'OK',
+                due: 'Due',
+                none: '—'
+            },
+            wizardTitle: 'Calibrate {meter}',
+            wizardHint: 'Tick each step as you complete it, then log the calibration for today.',
+            logBtn: 'Log calibration for today',
+            ecSteps: [
+                'Rinse the probe with clean water.',
+                'Place in EC calibration solution (1413 µS/cm, or your meter\u2019s 640/700 PPM standard).',
+                'Wait for the reading to stabilise.',
+                'Confirm the value matches the solution, then rinse the probe.'
+            ],
+            phSteps: [
+                'Rinse the probe with clean water.',
+                'Place in pH 7.0 buffer and calibrate.',
+                'Rinse, then place in pH 4.0 buffer and calibrate a second point.',
+                'Rinse and store the probe with a drop of storage solution.'
+            ],
+            careTitle: 'Equipment care',
+            care: [
+                { name: 'Probe storage', text: 'keep pH probes moist in storage solution and EC probes in storage solution or a damp tip cap; never let them dry out.' },
+                { name: 'Cleaning', text: 'dissolve stubborn film on EC probes with sensor cleaner, then rinse; remove pH electrode buildup with gentle cleaner and a rinse.' },
+                { name: 'Dry probe recovery', text: 'soak a dried electrode in storage solution for several hours before recalibrating.' }
+            ]
+        },
         guide: {
             title: 'Guide',
             intro: 'A short grounding in the six numbers that matter most, then how to begin.',
@@ -287,6 +325,7 @@ const UI_STRINGS = {
             journal: 'Dagboek',
             calculators: 'Calculators',
             testing: 'Testen',
+            calibration: 'Kalibratie',
             guide: 'Gids',
             references: 'Referenties'
         },
@@ -502,6 +541,43 @@ const UI_STRINGS = {
                 'Koude vloeistof vertraagt de pH-elektrode; een meting vlak na bijvullen kan te laag uitvallen.',
                 'Hard bronwater verhoogt de basis-EC \u2014 trek de EC van je water af v\u00f3\u00f3r je vergelijkt met een gewasdoel.',
                 'Een slechte sonde toont een verdacht perfect 7,0 of langzaam ronddrijvende waarden; verse buffervloeistoffen bevestigen de boosdoener.'
+            ]
+        },
+        calibration: {
+            title: 'Kalibratie',
+            subtitle: 'Houd bij wanneer je meters voor het laatst gekalibreerd zijn en volg een snelle routine om metingen betrouwbaar te houden.',
+            statusTitle: 'Meterstatus',
+            ecMeter: 'EC-meter',
+            phMeter: 'pH-meter',
+            never: 'Nog nooit gekalibreerd',
+            calibratedToday: 'Vandaag gekalibreerd',
+            daysAgo: '{days} dagen geleden',
+            calibrateBtn: 'Kalibreren',
+            status: {
+                ok: 'OK',
+                due: 'Vervallen',
+                none: '—'
+            },
+            wizardTitle: '{meter} kalibreren',
+            wizardHint: 'Vink elke stap aan zodra je hem hebt uitgevoerd en log daarna de kalibratie voor vandaag.',
+            logBtn: 'Log kalibratie voor vandaag',
+            ecSteps: [
+                'Spoel de sonde met schoon water.',
+                'Plaats in EC-kalibratievloeistof (1413 \u00b5S/cm, of jouw 640/700 PPM-standaard).',
+                'Wacht tot de meting stabiel is.',
+                'Bevestig dat de waarde klopt met de vloeistof en spoel de sonde daarna.'
+            ],
+            phSteps: [
+                'Spoel de sonde met schoon water.',
+                'Plaats in pH 7,0-buffer en kalibreer.',
+                'Spoel, plaats in pH 4,0-buffer en kalibreer een tweede punt.',
+                'Spoel en bewaar de sonde met een druppel opslagvloeistof.'
+            ],
+            careTitle: 'Onderhoud apparatuur',
+            care: [
+                { name: 'Sondeopslag', text: 'houd pH-sondes vochtig in opslagvloeistof en EC-sondes in opslagvloeistof of een vochtige beschermkap; laat ze nooit uitdrogen.' },
+                { name: 'Reinigen', text: 'los hardnekkige aanslag op EC-sondes op met sensorreiniger en spoel daarna; verwijder aanslag op pH-elektroden met milde reiniger en een spoeling.' },
+                { name: 'Herstel droge sonde', text: 'week een uitgedroogde elektrode enkele uren in opslagvloeistof v\u00f3\u00f3r je opnieuw kalibreert.' }
             ]
         },
         guide: {

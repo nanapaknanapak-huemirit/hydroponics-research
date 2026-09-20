@@ -53,6 +53,11 @@ Per crop:
 - **One-measurement test** — pick a crop + stage, enter EC / pH / water / air temp and get an instant in-range status per field against the stage and climate targets
 - **Guidance panels** — meters & calibration, taking a good sample, common reading pitfalls
 
+### Calibration & equipment log
+- **Meter status** — per meter (EC / pH) the last calibration date with a due pill (OK / Due), deduped on a 30-day interval
+- **Calibration wizard** — step-by-step routine per meter; log it once all steps are complete (stored locally)
+- **Equipment care** — probe storage, cleaning and dry-probe recovery tips
+
 ### Languages
 - 🇬🇧 English
 - 🇳🇱 Nederlands
@@ -80,18 +85,21 @@ hydroponics-research/
 │   ├── shared.js       # Pure cross-layer helpers (crop lookup, options, parsing)
 │   ├── calc.js         # Pure calculation module (no DOM)
 │   ├── journal.js      # Grow journal model: readings, assessments, trends, CSV (no DOM)
+│   ├── calibration.js  # Calibration model: due status, hydrate, log (no DOM)
 │   ├── i18n.js         # EN/NL UI strings
 │   ├── ui.js           # DOM/formatting helpers
 │   └── layers/         # Feature layers, one file per tab (registered with the core)
 │       ├── crops.js
 │       ├── journal.js
 │       ├── testing.js
+│       ├── calibration.js
 │       ├── calculators.js
 │       ├── guide.js
 │       └── references.js
 ├── tests/calc.test.js     # Calculator unit tests (Node)
 ├── tests/core.test.js     # Registry + shared helpers unit tests (Node)
 ├── tests/journal.test.js  # Journal unit tests (Node)
+├── tests/calibration.test.js  # Calibration unit tests (Node)
 └── qrcode.svg          # QR code for the live URL
 ```
 
@@ -111,6 +119,7 @@ the core and other layers stay untouched.
 node tests/calc.test.js
 node tests/core.test.js
 node tests/journal.test.js
+node tests/calibration.test.js
 ```
 
 Tests also run automatically on push (GitHub Actions).
