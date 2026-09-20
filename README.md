@@ -58,6 +58,12 @@ Per crop:
 - **Calibration wizard** — step-by-step routine per meter; log it once all steps are complete (stored locally)
 - **Equipment care** — probe storage, cleaning and dry-probe recovery tips
 
+### Insights & conclusions
+- **Plain-language verdicts** per grow — latest value vs crop target for EC, pH, water & air temp, with status pills
+- **Drift & trends** — rising / falling / steady indicator per field, plus in-range stats over recent readings
+- **Harvest countdown** — where each grow sits against its crop's published harvest window (before / inside / past)
+- **Read-only** — conclusions are computed live from your journal data; nothing extra stored
+
 ### Languages
 - 🇬🇧 English
 - 🇳🇱 Nederlands
@@ -86,11 +92,13 @@ hydroponics-research/
 │   ├── calc.js         # Pure calculation module (no DOM)
 │   ├── journal.js      # Grow journal model: readings, assessments, trends, CSV (no DOM)
 │   ├── calibration.js  # Calibration model: due status, hydrate, log (no DOM)
+│   ├── insights.js     # Conclusions model: verdicts over journal grows (no DOM)
 │   ├── i18n.js         # EN/NL UI strings
 │   ├── ui.js           # DOM/formatting helpers
 │   └── layers/         # Feature layers, one file per tab (registered with the core)
 │       ├── crops.js
 │       ├── journal.js
+│       ├── insights.js
 │       ├── testing.js
 │       ├── calibration.js
 │       ├── calculators.js
@@ -100,6 +108,7 @@ hydroponics-research/
 ├── tests/core.test.js     # Registry + shared helpers unit tests (Node)
 ├── tests/journal.test.js  # Journal unit tests (Node)
 ├── tests/calibration.test.js  # Calibration unit tests (Node)
+├── tests/insights.test.js  # Insights unit tests (Node)
 └── qrcode.svg          # QR code for the live URL
 ```
 
@@ -120,6 +129,7 @@ node tests/calc.test.js
 node tests/core.test.js
 node tests/journal.test.js
 node tests/calibration.test.js
+node tests/insights.test.js
 ```
 
 Tests also run automatically on push (GitHub Actions).

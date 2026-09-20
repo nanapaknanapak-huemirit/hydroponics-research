@@ -6,10 +6,10 @@ const UI_STRINGS = {
     en: {
         appTitle: 'Hydro Research',
         appSubtitle: 'Hydroponic growing data & calculators for home growers',
-        tabs: {
+tabs: {
             crops: 'Crops',
             journal: 'Journal',
-            calculators: 'Calculators',
+            insights: 'Insights',
             testing: 'Testing',
             calibration: 'Calibration',
             guide: 'Guide',
@@ -196,6 +196,24 @@ const UI_STRINGS = {
                 ph: 'pH'
             }
         },
+        insights: {
+            title: 'Insights',
+            subtitle: 'Plain-language conclusions drawn from your logged grows \u2014 latest values vs targets, drift and when to harvest.',
+            emptyTitle: 'No conclusions yet',
+            emptyHint: 'Log a few readings in the Journal tab and this page will turn them into conclusions.',
+            day: 'Day',
+            readingSingular: 'reading',
+            readingPlural: 'readings',
+            noReadings: 'No readings logged yet \u2014 add some to the journal to get conclusions.',
+            latestTitle: 'Latest vs target',
+            trendUp: '{field} rising +{delta}',
+            trendDown: '{field} falling \u2212{delta}',
+            trendFlat: '{field} steady',
+            days: 'days',
+            harvestBefore: 'Harvest window in ~{days} days ({range} days total)',
+            harvestWindow: 'Inside your harvest window ({range} days)',
+            harvestPast: 'Past the published harvest window ({range} days) \u2014 check for over-ripeness'
+        },
         testing: {
             title: 'Testing',
             subtitle: 'A quick check of a single measurement against the crop\u2019s stage and climate targets, plus notes on meters and sampling.',
@@ -320,10 +338,10 @@ const UI_STRINGS = {
     nl: {
         appTitle: 'Hydro Research',
         appSubtitle: 'Hydroponische kweekdata & calculators voor thuis-kwekers',
-        tabs: {
+tabs: {
             crops: 'Gewassen',
             journal: 'Dagboek',
-            calculators: 'Calculators',
+            insights: 'Inzichten',
             testing: 'Testen',
             calibration: 'Kalibratie',
             guide: 'Gids',
@@ -509,6 +527,24 @@ const UI_STRINGS = {
                 ec: 'EC',
                 ph: 'pH'
             }
+        },
+        insights: {
+            title: 'Inzichten',
+            subtitle: 'Conclusies in gewone taal op basis van je bijgehouden groeien \u2014 laatste waarden versus doelen, afwijkingen en wanneer oogsten.',
+            emptyTitle: 'Nog geen conclusies',
+            emptyHint: 'Log enkele metingen in het Dagboek en deze pagina zet ze om in conclusies.',
+            day: 'Dag',
+            readingSingular: 'meting',
+            readingPlural: 'metingen',
+            noReadings: 'Nog geen metingen gelogd \u2014 voeg er enkele toe aan het dagboek om conclusies te krijgen.',
+            latestTitle: 'Laatste versus doel',
+            trendUp: '{field} stijgt +{delta}',
+            trendDown: '{field} daalt \u2212{delta}',
+            trendFlat: '{field} stabiel',
+            days: 'dagen',
+            harvestBefore: 'Oogstvenster over \u2248{days} dagen ({range} dagen in totaal)',
+            harvestWindow: 'Binnen je oogstvenster ({range} dagen)',
+            harvestPast: 'Voorbij het gepubliceerde oogstvenster ({range} dagen) \u2014 controleer op overrijpheid'
         },
         testing: {
             title: 'Testen',
