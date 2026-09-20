@@ -3,7 +3,8 @@
 A research-backed reference for growing vegetables and fruit hydroponically:
 per-crop nutrient targets (EC / PPM / pH per growth stage), light, climate,
 growth timelines, nutrient-line recipes and troubleshooting — every value with
-a cited source. Includes four calculators and a quick-test tool for everyday decisions.
+a cited source. Includes four calculators, a quick-test tool and an
+export/import collaboration layer for comparing research between growers.
 
 <div align="center">
 
@@ -64,6 +65,11 @@ Per crop:
 - **Harvest countdown** — where each grow sits against its crop's published harvest window (before / inside / past)
 - **Read-only** — conclusions are computed live from your journal data; nothing extra stored
 
+### Collaboration & review
+- **Share packs** — export your journal + calibration as a portable JSON pack and import a colleague's pack (validated and previewed, then merged, never duplicated)
+- **Review & annotations** — leave comments on any grow and on individual readings; mark them resolved, delete them (all stored locally)
+- **Peer comparison** — your grows and imported grows grouped per crop, side by side: origin, day, readings, EC/pH status, in-range stats and harvest phase
+
 ### Languages
 - 🇬🇧 English
 - 🇳🇱 Nederlands
@@ -93,6 +99,8 @@ hydroponics-research/
 │   ├── journal.js      # Grow journal model: readings, assessments, trends, CSV (no DOM)
 │   ├── calibration.js  # Calibration model: due status, hydrate, log (no DOM)
 │   ├── insights.js     # Conclusions model: verdicts over journal grows (no DOM)
+│   ├── collab.js       # Collaboration model: packs, merge, comparison (no DOM)
+│   ├── review.js       # Review model: grow/reading annotations (no DOM)
 │   ├── i18n.js         # EN/NL UI strings
 │   ├── ui.js           # DOM/formatting helpers
 │   └── layers/         # Feature layers, one file per tab (registered with the core)
@@ -101,6 +109,7 @@ hydroponics-research/
 │       ├── insights.js
 │       ├── testing.js
 │       ├── calibration.js
+│       ├── collab.js
 │       ├── calculators.js
 │       ├── guide.js
 │       └── references.js
@@ -109,6 +118,8 @@ hydroponics-research/
 ├── tests/journal.test.js  # Journal unit tests (Node)
 ├── tests/calibration.test.js  # Calibration unit tests (Node)
 ├── tests/insights.test.js  # Insights unit tests (Node)
+├── tests/collab.test.js  # Collaboration unit tests (Node)
+├── tests/review.test.js  # Review unit tests (Node)
 └── qrcode.svg          # QR code for the live URL
 ```
 
@@ -130,6 +141,8 @@ node tests/core.test.js
 node tests/journal.test.js
 node tests/calibration.test.js
 node tests/insights.test.js
+node tests/collab.test.js
+node tests/review.test.js
 ```
 
 Tests also run automatically on push (GitHub Actions).
