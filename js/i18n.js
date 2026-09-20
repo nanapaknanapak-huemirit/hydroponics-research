@@ -8,6 +8,7 @@ const UI_STRINGS = {
         appSubtitle: 'Hydroponic growing data & calculators for home growers',
         tabs: {
             crops: 'Crops',
+            journal: 'Journal',
             calculators: 'Calculators',
             guide: 'Guide',
             references: 'References'
@@ -126,6 +127,73 @@ const UI_STRINGS = {
             planHarvest: 'Harvest window',
             planInfo: 'Dates are ranges based on published averages; actual timing depends on your system and season.'
         },
+        journal: {
+            title: 'Grow journal',
+            intro: 'Log what you actually measure and see at a glance whether each reading sits inside your crop\u2019s stage targets.',
+            overviewTitle: 'Your grows',
+            newGrow: 'New grow',
+            emptyTitle: 'No grows yet',
+            emptyHint: 'Create a grow and start logging EC, pH and temperature against the crop\u2019s stage targets.',
+            storageNote: 'Stored locally in your browser only. Export CSV to keep a copy; clearing your browser data wipes the journal.',
+            growCountSingular: 'grow',
+            growCountPlural: 'grows',
+            noReadings: 'No readings yet \u2014 use the form above.',
+            form: {
+                crop: 'Crop',
+                name: 'Name (optional)',
+                start: 'Start date',
+                system: 'System',
+                notes: 'Notes (optional)',
+                create: 'Create grow'
+            },
+            detail: {
+                back: '\u2190 All grows',
+                reading: 'Reading',
+                deleteGrow: 'Delete grow',
+                deleteReading: 'Delete',
+                confirm: 'Confirm?',
+                cancel: 'Cancel',
+                csv: 'Export CSV',
+                day: 'Day',
+                started: 'Started',
+                readingsCountSingular: 'reading',
+                readingsCountPlural: 'readings'
+            },
+            formReading: {
+                date: 'Date',
+                stage: 'Growth stage',
+                ec: 'EC (mS/cm)',
+                ph: 'pH',
+                waterTemp: 'Water temp (\u00b0C)',
+                airTemp: 'Air temp (\u00b0C)',
+                notes: 'Notes (optional)',
+                submit: 'Log reading',
+                target: 'Target for {stage}:'
+            },
+            readingsTitle: 'Readings',
+            table: {
+                date: 'Date',
+                stage: 'Stage',
+                ec: 'EC',
+                ph: 'pH',
+                waterTemp: 'Water',
+                airTemp: 'Air',
+                notes: 'Notes'
+            },
+            status: {
+                ok: 'In range',
+                low: 'Low',
+                high: 'High',
+                none: '\u2014'
+            },
+            summaryInRange: '{field} in range {in}/{total}',
+            trendTitle: 'Trend',
+            trendTooFew: 'Log at least two read readings to see a trend.',
+            fieldLabels: {
+                ec: 'EC',
+                ph: 'pH'
+            }
+        },
         guide: {
             title: 'Guide',
             intro: 'A short grounding in the six numbers that matter most, then how to begin.',
@@ -182,6 +250,7 @@ const UI_STRINGS = {
         appSubtitle: 'Hydroponische kweekdata & calculators voor thuis-kwekers',
         tabs: {
             crops: 'Gewassen',
+            journal: 'Dagboek',
             calculators: 'Calculators',
             guide: 'Gids',
             references: 'Referenties'
@@ -299,6 +368,73 @@ const UI_STRINGS = {
             planGermination: 'Kieming',
             planHarvest: 'Oogstvenster',
             planInfo: 'Datums zijn bereiken op basis van gepubliceerde gemiddelden; de werkelijke timing hangt af van je systeem en seizoen.'
+        },
+        journal: {
+            title: 'Groeidagboek',
+            intro: 'Log wat je daadwerkelijk meet en zie in \u00e9\u00e9n oogopslag of elke meting binnen het fase-doel van je gewas valt.',
+            overviewTitle: 'Jouw groeien',
+            newGrow: 'Nieuwe groei',
+            emptyTitle: 'Nog geen groeien',
+            emptyHint: 'Maak een groei aan en begin EC, pH en temperatuur te loggen tegen de fase-doelen van het gewas.',
+            storageNote: 'Alleen lokaal opgeslagen in je browser. Exporteer CSV voor een kopie; browserdata wissen wist het dagboek.',
+            growCountSingular: 'groei',
+            growCountPlural: 'groeien',
+            noReadings: 'Nog geen metingen \u2014 gebruik het formulier hierboven.',
+            form: {
+                crop: 'Gewas',
+                name: 'Naam (optioneel)',
+                start: 'Startdatum',
+                system: 'Systeem',
+                notes: 'Notities (optioneel)',
+                create: 'Groei aanmaken'
+            },
+            detail: {
+                back: '\u2190 Alle groeien',
+                reading: 'Meting',
+                deleteGrow: 'Verwijder groei',
+                deleteReading: 'Verwijder',
+                confirm: 'Bevestigen?',
+                cancel: 'Annuleren',
+                csv: 'Exporteer CSV',
+                day: 'Dag',
+                started: 'Gestart',
+                readingsCountSingular: 'meting',
+                readingsCountPlural: 'metingen'
+            },
+            formReading: {
+                date: 'Datum',
+                stage: 'Groeifase',
+                ec: 'EC (mS/cm)',
+                ph: 'pH',
+                waterTemp: 'Watertemp (\u00b0C)',
+                airTemp: 'Luchttemp (\u00b0C)',
+                notes: 'Notities (optioneel)',
+                submit: 'Log meting',
+                target: 'Doel voor {stage}:'
+            },
+            readingsTitle: 'Metingen',
+            table: {
+                date: 'Datum',
+                stage: 'Fase',
+                ec: 'EC',
+                ph: 'pH',
+                waterTemp: 'Water',
+                airTemp: 'Lucht',
+                notes: 'Notities'
+            },
+            status: {
+                ok: 'Binnen bereik',
+                low: 'Te laag',
+                high: 'Te hoog',
+                none: '\u2014'
+            },
+            summaryInRange: '{field} binnen bereik {in}/{total}',
+            trendTitle: 'Trend',
+            trendTooFew: 'Log minimaal twee gemeten lezingen om een trend te zien.',
+            fieldLabels: {
+                ec: 'EC',
+                ph: 'pH'
+            }
         },
         guide: {
             title: 'Gids',

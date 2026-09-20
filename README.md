@@ -41,6 +41,14 @@ Per crop:
 3. **DLI / lighting** — PPFD × photoperiod → Daily Light Integral, vs. crop target
 4. **Crop & harvest planner** — timing windows + staggered planting schedule
 
+### Grow journal & monitoring
+- **Create grows** per crop with start date, system and notes (stored locally)
+- **Log readings** — date, stage, EC, pH, water & air temperature
+- **Live assessment** — every measured EC/pH color-coded against the crop's stage target: in range / low / high
+- **Trend view** — sparklines for EC and pH with the crop's target band overlaid
+- **In-range summary** — "EC in range 3/5" for the latest readings
+- **CSV export** — download the whole journal; your data never leaves the browser
+
 ### Languages
 - 🇬🇧 English
 - 🇳🇱 Nederlands
@@ -65,9 +73,11 @@ hydroponics-research/
 │   └── references.js   # Cited sources
 ├── js/
 │   ├── calc.js         # Pure calculation module (no DOM)
+│   ├── journal.js      # Grow journal model: readings, assessments, trends, CSV (no DOM)
 │   ├── i18n.js         # EN/NL UI strings
 │   └── ui.js           # DOM/formatting helpers
-├── tests/calc.test.js  # Unit tests (Node)
+├── tests/calc.test.js     # Calculator unit tests (Node)
+├── tests/journal.test.js  # Journal unit tests (Node)
 └── qrcode.svg          # QR code for the live URL
 ```
 
@@ -75,6 +85,7 @@ hydroponics-research/
 
 ```bash
 node tests/calc.test.js
+node tests/journal.test.js
 ```
 
 Tests also run automatically on push (GitHub Actions).
