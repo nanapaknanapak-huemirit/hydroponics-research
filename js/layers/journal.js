@@ -20,15 +20,12 @@
         selectedId: null,
         createOpen: false
     };
-    let ready = false;
 
+    // Always re-hydrate from storage so grows imported via the collaboration
+    // layer appear immediately without a page reload.
     function ensureReady(ctx) {
-        if (ready) {
-            return;
-        }
         const raw = ctx.storage.load(JOURNAL_STORAGE_KEY);
         state.grows = Journal.hydrate(raw).grows;
-        ready = true;
     }
 
     function save(ctx) {

@@ -288,7 +288,6 @@ tabs: {
         collab: {
             title: 'Collaboration',
             subtitle: 'Swap research between systems \u2014 export and import share packs, leave review notes on each other\u2019s grows, and compare results side by side.',
-            shareTitle: 'Share your research',
             authorLabel: 'Researcher name',
             exportBtn: 'Export share pack (JSON)',
             exportNote: 'The pack bundles your grows, readings and meter calibration. Send the file to a colleague; they import it below.',
@@ -684,7 +683,6 @@ tabs: {
         collab: {
             title: 'Samenwerken',
             subtitle: 'Wissel onderzoek uit tussen systemen \u2014 exporteer en importeer deelpakketten, laat review-notities achter op elkaars groeien en vergelijk resultaten naast elkaar.',
-            shareTitle: 'Deel je onderzoek',
             authorLabel: 'Naam onderzoeker',
             exportBtn: 'Exporteer deelpakket (JSON)',
             exportNote: 'Het pakket bundelt je groeien, metingen en meterkalibratie. Stuur het bestand naar een collega; die importeert het hieronder.',
@@ -739,7 +737,7 @@ tabs: {
             originOwn: 'Eigen',
             originPeer: 'Collega',
             harvestPhases: {
-                before: 'Vroeger',
+                before: 'V\u00f3\u00f3r venster',
                 window: 'In venster',
                 past: 'Verlopen'
             }
