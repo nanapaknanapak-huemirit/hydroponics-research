@@ -111,6 +111,22 @@ const ui = require('../js/i18n.js');
 equal(typeof ui.en.calculators.ecTitle, 'string', 'i18n en calculators key present');
 equal(ui.nl.crops.categories.leafy, 'Bladgroenten', 'i18n nl leafy label');
 
+// --- System planner helpers --------------------------------------------------------
+equal(Calc.plantCount(200, 100, 20), 50, 'plantCount 200x100 @20 = 50');
+closeTo(Calc.reservoirEstimate(50, 0.5), 25, 0.001, 'reservoirEstimate 50 x 0.5L = 25L');
+closeTo(Calc.weeklySolutionDemand(50, 0.35), 17.5, 0.001, 'weeklySolutionDemand 50 x 0.35L = 17.5L');
+equal(Calc.reservoirEstimate(0, 2), 0, 'reservoirEstimate clamps non-positive to 0');
+function throwsWhen(fn, label) {
+    try {
+        fn();
+        failed += 1;
+        console.error('FAIL', label, '- expected an exception');
+    } catch (err) {
+        passed += 1;
+    }
+}
+throwsWhen(() => Calc.plantCount(200, 100, 0), 'plantCount throws on zero spacing');
+
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) {
     process.exit(1);

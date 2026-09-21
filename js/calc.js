@@ -156,6 +156,51 @@
         return dates;
     }
 
+    /**
+     * Plant count for a rectangular growing area on a square grid.
+     * Throws on a zero or negative spacing.
+     * @param {number} areaW - area width (cm)
+     * @param {number} areaL - area length (cm)
+     * @param {number} spacing - plant-to-plant spacing (cm)
+     * @returns {number}
+     */
+    function plantCount(areaW, areaL, spacing) {
+        if (!spacing || spacing <= 0) {
+            throw new Error('plantCount requires spacing > 0');
+        }
+        const w = typeof areaW === 'number' && areaW > 0 ? areaW : 0;
+        const l = typeof areaL === 'number' && areaL > 0 ? areaL : 0;
+        return Math.floor(w / spacing) * Math.floor(l / spacing);
+    }
+
+    /**
+     * Rough reservoir volume (L) for a given plant count, from a per-plant
+     * root-zone volume. This is the bare root-zone estimate — real systems add
+     * pump/drain dead-space and top-up headroom.
+     * @param {number} plants - plant count
+     * @param {number} rootsVolumeL - litres of root-zone per plant
+     * @returns {number}
+     */
+    function reservoirEstimate(plants, rootsVolumeL) {
+        const count = typeof plants === 'number' && plants > 0 ? plants : 0;
+        const perPlant = typeof rootsVolumeL === 'number' && rootsVolumeL > 0 ? rootsVolumeL : 0;
+        return count * perPlant;
+    }
+
+    /**
+     * Weekly solution demand (L) for a plant count, from a per-plant weekly
+     * consumption estimate (top-up + scheduled change).
+     * @param {number} plants - plant count
+     * @param {number} litresPerPlantPerWeek - weekly litres per plant
+     * @returns {number}
+     */
+    function weeklySolutionDemand(plants, litresPerPlantPerWeek) {
+        const count = typeof plants === 'number' && plants > 0 ? plants : 0;
+        const perPlant = typeof litresPerPlantPerWeek === 'number' && litresPerPlantPerWeek > 0
+            ? litresPerPlantPerWeek : 0;
+        return count * perPlant;
+    }
+
     const Calc = {
         PPM_SCALES: PPM_SCALES,
         HOURS_PER_DAY: HOURS_PER_DAY,
@@ -168,7 +213,10 @@
         timelineOffsets: timelineOffsets,
         addDays: addDays,
         clamp: clamp,
-        staggerPlantings: staggerPlantings
+        staggerPlantings: staggerPlantings,
+        plantCount: plantCount,
+        reservoirEstimate: reservoirEstimate,
+        weeklySolutionDemand: weeklySolutionDemand
     };
 
     if (typeof module !== 'undefined' && module.exports) {

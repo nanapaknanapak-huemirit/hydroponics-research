@@ -587,6 +587,142 @@ footer {
     font-size: 0.85rem;
 }
 
+/* ---------- tasks & systems ---------- */
+
+.task-list {
+    list-style: none;
+    margin: 0 0 var(--space);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.task-day {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+}
+
+.task-day-label {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.task-sub {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-top: var(--space);
+}
+
+.cal-dow {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 4px 0;
+}
+
+.cal-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+}
+
+.cal-day.empty {
+    background: transparent;
+    border-color: transparent;
+}
+
+.cal-day.has-tasks {
+    border-color: var(--accent-soft);
+}
+
+.cal-day.today {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent) inset;
+}
+
+.cal-dot {
+    margin-top: 2px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+    border-radius: 10px;
+    line-height: 1.2;
+    padding: 0 6px;
+}
+
+.systems-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: var(--space);
+}
+
+.system-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+}
+
+.system-row-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.system-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.system-row .field,
+.system-row input.field {
+    min-width: 0;
+    flex: 0 1 auto;
+}
+
+.system-form {
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+}
+
+.system-form > button.btn {
+    margin-top: 6px;
+}
+
 /* ---------- responsive / motion ---------- */
 
 @media (max-width: 640px) {

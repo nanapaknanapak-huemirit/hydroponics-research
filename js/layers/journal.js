@@ -14,9 +14,11 @@
 
     const SVG_NS = 'http://www.w3.org/2000/svg';
     const JOURNAL_STORAGE_KEY = 'hydroponics.journal.v1';
+    const SYSTEMS_STORAGE_KEY = 'hydroponics.systems.v1';
 
     const state = {
         grows: [],
+        systems: [],
         selectedId: null,
         createOpen: false
     };
@@ -26,6 +28,12 @@
     function ensureReady(ctx) {
         const raw = ctx.storage.load(JOURNAL_STORAGE_KEY);
         state.grows = Journal.hydrate(raw).grows;
+        state.systems = Systems.hydrate(ctx.storage.load(SYSTEMS_STORAGE_KEY)).systems;
+    }
+
+    function systemNameById(id) {
+        const sys = state.systems.find((s) => s.id === id);
+        return sys ? sys.name : null;
     }
 
     function save(ctx) {
@@ -172,6 +180,24 @@
         notesInput.type = 'text';
         notesInput.setAttribute('aria-label', t.journal.form.notes);
 
+        const systemIdSelect = UIAPI.el('select', 'field');
+        systemIdSelect.setAttribute('aria-label', t.journal.form.savedSystem);
+        if (state.systems.length > 0) {
+            const sysIdPlaceholder = UIAPI.el('option', null, '');
+            sysIdPlaceholder.value = '';
+            systemIdSelect.appendChild(sysIdPlaceholder);
+            state.systems.forEach((sys) => {
+                const opt = UIAPI.el('option', null, sys.name);
+                opt.value = sys.id;
+                systemIdSelect.appendChild(opt);
+            });
+        } else {
+            const noneOpt = UIAPI.el('option', null, t.journal.form.systemNone);
+            noneOpt.value = '';
+            noneOpt.disabled = true;
+            systemIdSelect.appendChild(noneOpt);
+        }
+
         const submit = UIAPI.el('button', 'btn primary', t.journal.form.create);
         submit.type = 'button';
         submit.addEventListener('click', () => {
@@ -183,6 +209,7 @@
                 name: nameInput.value,
                 startIso: startInput.value,
                 system: systemSelect.value,
+                systemId: systemIdSelect.value,
                 notes: notesInput.value
             });
             state.grows.push(grow);
@@ -196,6 +223,7 @@
         wrap.appendChild(ctx.helpers.fieldRow(t.journal.form.name, nameInput));
         wrap.appendChild(ctx.helpers.fieldRow(t.journal.form.start, startInput));
         wrap.appendChild(ctx.helpers.fieldRow(t.journal.form.system, systemSelect));
+        wrap.appendChild(ctx.helpers.fieldRow(t.journal.form.savedSystem, systemIdSelect));
         wrap.appendChild(ctx.helpers.fieldRow(t.journal.form.notes, notesInput));
         wrap.appendChild(submit);
         return wrap;
@@ -215,8 +243,12 @@
         const nameWrap = UIAPI.el('div', 'grow-card-name');
         nameWrap.appendChild(UIAPI.el('h3', null, grow.name || ctx.services.cropName(crop, ctx.lang)));
         const bits = [ctx.services.cropName(crop, ctx.lang), UIAPI.formatDate(grow.startIso, ctx.lang)];
+        const savedName = systemNameById(grow.systemId);
         if (grow.system) {
             bits.push(t.crop.systems[grow.system] || grow.system);
+        }
+        if (savedName) {
+            bits.push(savedName);
         }
         nameWrap.appendChild(UIAPI.el('span', 'crop-card-latin', bits.join(' \u00b7 ')));
         head.appendChild(nameWrap);
@@ -286,8 +318,12 @@
         const subBits = [(crop ? ctx.services.cropName(crop, ctx.lang) : grow.cropId),
             t.journal.detail.started + ' ' + UIAPI.formatDate(grow.startIso, ctx.lang),
             dayLabel(ctx, grow)];
+        const savedName = systemNameById(grow.systemId);
         if (grow.system) {
             subBits.push(t.crop.systems[grow.system] || grow.system);
+        }
+        if (savedName) {
+            subBits.push(savedName);
         }
         main.appendChild(UIAPI.el('span', 'crop-card-latin', subBits.join(' \u00b7 ')));
         header.appendChild(main);

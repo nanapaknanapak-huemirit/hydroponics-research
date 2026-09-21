@@ -3,8 +3,10 @@
 A research-backed reference for growing vegetables and fruit hydroponically:
 per-crop nutrient targets (EC / PPM / pH per growth stage), light, climate,
 growth timelines, nutrient-line recipes and troubleshooting — every value with
-a cited source. Includes four calculators, a quick-test tool and an
-export/import collaboration layer for comparing research between growers.
+a cited source. Includes five calculators, a quick-test tool and an
+export/import collaboration layer for comparing research between growers. Plus growth tasks (derived check/change/top-up,
+germination/harvest windows and calibration dates) with a calendar, optional
+desktop notifications and a "my systems" list.
 
 <div align="center">
 
@@ -41,6 +43,7 @@ Per crop:
 2. **Nutrient dosing** — crop + stage + liquid line + reservoir volume → grams/mL per part
 3. **DLI / lighting** — PPFD × photoperiod → Daily Light Integral, vs. crop target
 4. **Crop & harvest planner** — timing windows + staggered planting schedule
+5. **System designer** — area + crop → plant count, reservoir estimate, weekly solution, nutrients, light check and a rough economics sketch from your own costs
 
 ### Grow journal & monitoring
 - **Create grows** per crop with start date, system and notes (stored locally)
@@ -70,6 +73,12 @@ Per crop:
 - **Review & annotations** — leave comments on any grow and on individual readings; mark them resolved, delete them (all stored locally)
 - **Peer comparison** — your grows and imported grows grouped per crop, side by side: origin, day, readings, EC/pH status, in-range stats and harvest phase
 
+### Tasks & systems
+- **Today & upcoming** — recurring feed checks (3 d), solution changes (14 d) and top-ups (7 d) per grow, plus germination/harvest window anchors and meter calibration dates
+- **Calendar** — month grid with task-dot badges, month navigation and today highlight
+- **Notifications** — opt-in desktop notifications, at most one per task per day (deduped, stored locally)
+- **My systems** — named grow systems (type, reservoir, area) that feed the system designer and tag journal grows
+
 ### Languages
 - 🇬🇧 English
 - 🇳🇱 Nederlands
@@ -90,6 +99,7 @@ hydroponics-research/
 ├── data/               # Config data (the "research")
 │   ├── crops.js        # 8 crops: stages, climate, growth, recipes, issues, sources
 │   ├── presets.js      # Nutrient line presets for the dosing calculator
+│   ├── planner.js      # System volume + crop yield starting points for the planner
 │   └── references.js   # Cited sources
 ├── js/
 │   ├── core.js         # Shell: registry-driven nav, render loop, language, storage, boot
@@ -97,10 +107,13 @@ hydroponics-research/
 │   ├── shared.js       # Pure cross-layer helpers (crop lookup, options, parsing)
 │   ├── calc.js         # Pure calculation module (no DOM)
 │   ├── journal.js      # Grow journal model: readings, assessments, trends, CSV (no DOM)
+│   ├── systems.js      # "My systems" model: create, update, remove, hydrate (no DOM)
 │   ├── calibration.js  # Calibration model: due status, hydrate, log (no DOM)
 │   ├── insights.js     # Conclusions model: verdicts over journal grows (no DOM)
+│   ├── designer.js     # System designer model: buildPlan (no DOM)
 │   ├── collab.js       # Collaboration model: packs, merge, comparison (no DOM)
 │   ├── review.js       # Review model: grow/reading annotations (no DOM)
+│   ├── tasks.js        # Task engine: schedules, calendar, notification dedupe (no DOM)
 │   ├── i18n.js         # EN/NL UI strings
 │   ├── ui.js           # DOM/formatting helpers
 │   └── layers/         # Feature layers, one file per tab (registered with the core)
@@ -111,15 +124,19 @@ hydroponics-research/
 │       ├── calibration.js
 │       ├── collab.js
 │       ├── calculators.js
+│       ├── tasks.js
 │       ├── guide.js
 │       └── references.js
 ├── tests/calc.test.js     # Calculator unit tests (Node)
 ├── tests/core.test.js     # Registry + shared helpers unit tests (Node)
 ├── tests/journal.test.js  # Journal unit tests (Node)
 ├── tests/calibration.test.js  # Calibration unit tests (Node)
+├── tests/designer.test.js # System designer unit tests (Node)
 ├── tests/insights.test.js  # Insights unit tests (Node)
 ├── tests/collab.test.js  # Collaboration unit tests (Node)
 ├── tests/review.test.js  # Review unit tests (Node)
+├── tests/systems.test.js # Systems + planner data unit tests (Node)
+├── tests/tasks.test.js   # Task engine + dedupe unit tests (Node)
 └── qrcode.svg          # QR code for the live URL
 ```
 
@@ -139,10 +156,13 @@ the core and other layers stay untouched.
 node tests/calc.test.js
 node tests/core.test.js
 node tests/journal.test.js
+node tests/systems.test.js
 node tests/calibration.test.js
+node tests/designer.test.js
 node tests/insights.test.js
 node tests/collab.test.js
 node tests/review.test.js
+node tests/tasks.test.js
 ```
 
 Tests also run automatically on push (GitHub Actions).

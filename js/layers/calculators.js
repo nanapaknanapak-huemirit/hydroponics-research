@@ -29,7 +29,24 @@
         planCrop: 'lettuce',
         planStart: '',
         planPerWeek: '2',
-        planWeeks: '4'
+        planWeeks: '4',
+        desCrop: 'lettuce',
+        desStage: 'seedling',
+        desSystem: 'nft',
+        desAreaW: '100',
+        desAreaL: '50',
+        desSpacing: '',
+        desReservoir: '',
+        desRecipe: 'masterblend',
+        desTargetEc: '1.0',
+        desSourceEc: '0.2',
+        desStart: '',
+        desPerWeek: '1',
+        desWeeks: '4',
+        desPpfd: '300',
+        desHours: '14',
+        desSeed: '',
+        desPrice: ''
     };
 
     /* ---- option builders (data -> <option> nodes) ---- */
@@ -410,6 +427,256 @@
         container.appendChild(UIAPI.el('p', 'note-text', t.calculators.planInfo));
     }
 
+    /* ---- system designer ---- */
+
+    function rerenderDesStageSelect(ctx, stageSelect, crop) {
+        stageSelect.replaceChildren();
+        if (!crop) {
+            return;
+        }
+        stageOptionEls(ctx, crop, state.desStage).forEach((opt) => stageSelect.appendChild(opt));
+        stageSelect.value = state.desStage;
+    }
+
+    function syncDesTarget(ctx) {
+        const crop = ctx.services.findCrop(CROP_DATA, state.desCrop);
+        const stage = crop ? crop.stages.find((s) => s.key === state.desStage) : null;
+        if (stage) {
+            state.desTargetEc = String((stage.ec[0] + stage.ec[1]) / 2);
+            const targetInput = document.getElementById('designer-target');
+            if (targetInput) {
+                targetInput.value = state.desTargetEc;
+            }
+        }
+        updateDesignerResults(ctx);
+    }
+
+    function renderDesigner(ctx) {
+        const t = ctx.T();
+        const wrap = panel(
+            UIAPI.el('h3', 'panel-title', t.calculators.designerTitle),
+            UIAPI.el('p', 'subtitle', t.calculators.designerDesc)
+        );
+
+        const cropSelect = UIAPI.el('select', 'field');
+        cropSelect.setAttribute('aria-label', t.calculators.designerCrop);
+        cropOptionEls(ctx, state.desCrop, false).forEach((opt) => cropSelect.appendChild(opt));
+        cropSelect.value = state.desCrop;
+        cropSelect.addEventListener('change', (e) => {
+            state.desCrop = e.target.value;
+            const crop = ctx.services.findCrop(CROP_DATA, e.target.value);
+            state.desStage = crop ? crop.stages[0].key : '';
+            rerenderDesStageSelect(ctx, stageSelect, crop);
+            syncDesTarget(ctx);
+        });
+
+        const stageSelect = UIAPI.el('select', 'field');
+        stageSelect.setAttribute('aria-label', t.calculators.designerStage);
+        stageSelect.addEventListener('change', (e) => {
+            state.desStage = e.target.value;
+            syncDesTarget(ctx);
+        });
+
+        const systemSelect = UIAPI.el('select', 'field');
+        systemSelect.setAttribute('aria-label', t.calculators.designerSystem);
+        PLANNER.systemTypes.forEach((sys) => {
+            const opt = UIAPI.el('option', null, t.crop.systems[sys.id] || sys.id);
+            opt.value = sys.id;
+            systemSelect.appendChild(opt);
+        });
+        systemSelect.value = state.desSystem;
+        systemSelect.addEventListener('change', (e) => {
+            state.desSystem = e.target.value;
+            updateDesignerResults(ctx);
+        });
+
+        const areaW = ctx.helpers.numberField(t.calculators.designerAreaW, (v) => { state.desAreaW = v; });
+        areaW.querySelector('input').value = state.desAreaW;
+        const areaL = ctx.helpers.numberField(t.calculators.designerAreaL, (v) => { state.desAreaL = v; });
+        areaL.querySelector('input').value = state.desAreaL;
+        const spacing = ctx.helpers.numberField(t.calculators.designerSpacing, (v) => { state.desSpacing = v; });
+        spacing.querySelector('input').value = state.desSpacing;
+        const reservoir = ctx.helpers.numberField(t.calculators.designerReservoir, (v) => { state.desReservoir = v; });
+        reservoir.querySelector('input').value = state.desReservoir;
+
+        const recipe = UIAPI.el('select', 'field');
+        recipe.setAttribute('aria-label', t.calculators.designerRecipe);
+        NUTRIENT_LINES.forEach((line) => {
+            const opt = UIAPI.el('option', null, line.name);
+            opt.value = line.id;
+            recipe.appendChild(opt);
+        });
+        recipe.value = state.desRecipe;
+        recipe.addEventListener('change', (e) => {
+            state.desRecipe = e.target.value;
+            updateDesignerResults(ctx);
+        });
+
+        const targetField = ctx.helpers.numberField(t.calculators.designerTargetEc, (v) => { state.desTargetEc = v; });
+        const targetInput = targetField.querySelector('input');
+        targetInput.id = 'designer-target';
+        targetInput.value = state.desTargetEc;
+        const sourceEc = ctx.helpers.numberField(t.calculators.designerSourceEc, (v) => { state.desSourceEc = v; });
+        sourceEc.querySelector('input').value = state.desSourceEc;
+
+        const start = UIAPI.el('input', 'field');
+        start.type = 'date';
+        start.value = state.desStart || ctx.services.todayIso();
+        start.setAttribute('aria-label', t.calculators.designerStart);
+        start.addEventListener('change', (e) => {
+            state.desStart = e.target.value;
+            updateDesignerResults(ctx);
+        });
+
+        const perWeek = ctx.helpers.numberField(t.calculators.designerPerWeek, (v) => { state.desPerWeek = v; });
+        perWeek.querySelector('input').value = state.desPerWeek;
+        const weeks = ctx.helpers.numberField(t.calculators.designerWeeks, (v) => { state.desWeeks = v; });
+        weeks.querySelector('input').value = state.desWeeks;
+
+        const ppfd = ctx.helpers.numberField(t.calculators.designerPpfd, (v) => { state.desPpfd = v; });
+        ppfd.querySelector('input').value = state.desPpfd;
+        const hours = ctx.helpers.numberField(t.calculators.designerHours, (v) => { state.desHours = v; });
+        hours.querySelector('input').value = state.desHours;
+
+        const seed = ctx.helpers.numberField(t.calculators.designerSeed, (v) => { state.desSeed = v; });
+        seed.querySelector('input').value = state.desSeed;
+        const price = ctx.helpers.numberField(t.calculators.designerPrice, (v) => { state.desPrice = v; });
+        price.querySelector('input').value = state.desPrice;
+
+        const results = UIAPI.el('div', 'calc-results');
+        results.id = 'designer-results';
+        const note = UIAPI.el('p', 'note-text', t.calculators.designerNote);
+
+        wrap.appendChild(ctx.helpers.fieldRow(t.calculators.designerCrop, cropSelect));
+        wrap.appendChild(ctx.helpers.fieldRow(t.calculators.designerStage, stageSelect));
+        wrap.appendChild(ctx.helpers.fieldRow(t.calculators.designerSystem, systemSelect));
+        wrap.appendChild(areaW);
+        wrap.appendChild(areaL);
+        wrap.appendChild(spacing);
+        wrap.appendChild(reservoir);
+        wrap.appendChild(ctx.helpers.fieldRow(t.calculators.designerRecipe, recipe));
+        wrap.appendChild(targetField);
+        wrap.appendChild(sourceEc);
+        wrap.appendChild(ctx.helpers.fieldRow(t.calculators.designerStart, start));
+        wrap.appendChild(perWeek);
+        wrap.appendChild(weeks);
+        wrap.appendChild(ppfd);
+        wrap.appendChild(hours);
+        wrap.appendChild(seed);
+        wrap.appendChild(price);
+        wrap.appendChild(results);
+        wrap.appendChild(note);
+
+        rerenderDesStageSelect(ctx, stageSelect, ctx.services.findCrop(CROP_DATA, state.desCrop));
+        syncDesTarget(ctx);
+        return wrap;
+    }
+
+    function updateDesignerResults(ctx) {
+        const t = ctx.T();
+        const container = document.getElementById('designer-results');
+        if (container === null) {
+            return;
+        }
+        container.replaceChildren();
+
+        const plan = Designer.buildPlan({
+            cropId: state.desCrop,
+            systemType: state.desSystem,
+            areaW: ctx.services.parseNumber(state.desAreaW),
+            areaL: ctx.services.parseNumber(state.desAreaL),
+            spacing: state.desSpacing === '' ? null : ctx.services.parseNumber(state.desSpacing),
+            reservoirL: state.desReservoir === '' ? null : ctx.services.parseNumber(state.desReservoir),
+            recipeId: state.desRecipe,
+            targetEc: ctx.services.parseNumber(state.desTargetEc),
+            sourceEc: ctx.services.parseNumber(state.desSourceEc),
+            harvestsPerWeek: ctx.services.parseNumber(state.desPerWeek),
+            weeksForward: ctx.services.parseNumber(state.desWeeks),
+            startIso: state.desStart || ctx.services.todayIso(),
+            ppfd: state.desPpfd === '' ? null : ctx.services.parseNumber(state.desPpfd),
+            lightHours: state.desHours === '' ? null : ctx.services.parseNumber(state.desHours),
+            economics: {
+                seedCostPerPlant: state.desSeed === '' ? null : ctx.services.parseNumber(state.desSeed),
+                pricePerKg: state.desPrice === '' ? null : ctx.services.parseNumber(state.desPrice)
+            }
+        });
+
+        if (!plan.complete) {
+            container.appendChild(UIAPI.el('p', 'note-text', '\u2014'));
+            return;
+        }
+
+        function addRow(label, value) {
+            const row = UIAPI.el('div', 'result-row');
+            row.appendChild(UIAPI.el('span', null, label));
+            row.appendChild(UIAPI.el('b', null, value));
+            container.appendChild(row);
+        }
+
+        container.appendChild(UIAPI.el('h4', 'calc-result-title', t.calculators.designerSpaceTitle));
+        addRow(t.calculators.designerPlants,
+            UIAPI.formatNumber(plan.plantCount, ctx.lang, 0) +
+            ' (' + UIAPI.formatNumber(plan.spacing, ctx.lang, 0) + ' cm)');
+        addRow(t.calculators.designerReservoir,
+            plan.reservoirL !== null ? UIAPI.formatNumber(plan.reservoirL, ctx.lang, 0) + ' L' : '\u2014');
+        addRow(t.calculators.designerWeekly,
+            plan.weeklySolutionL !== null ? UIAPI.formatNumber(plan.weeklySolutionL, ctx.lang, 1) + ' L' : '\u2014');
+        if (plan.estimatedReservoir !== null && plan.reservoirL !== plan.estimatedReservoir) {
+            container.appendChild(UIAPI.el('p', 'note-text',
+                t.calculators.designerReservoirHint.replace('{est}', UIAPI.formatNumber(plan.estimatedReservoir, ctx.lang, 0))));
+        }
+
+        if (plan.dosing) {
+            container.appendChild(UIAPI.el('h4', 'calc-result-title',
+                t.calculators.designerDoseTitle.replace('{res}', UIAPI.formatNumber(plan.reservoirL, ctx.lang, 0))));
+            const list = UIAPI.el('ul', 'recipe-parts');
+            plan.dosing.parts.forEach((part) => {
+                list.appendChild(UIAPI.el(
+                    'li', null,
+                    part.product + ' \u2014 ' + UIAPI.formatNumber(part.amount, ctx.lang, 1) + ' ' + part.unit
+                ));
+            });
+            container.appendChild(list);
+        }
+
+        if (plan.light) {
+            container.appendChild(UIAPI.el('h4', 'calc-result-title', t.calculators.designerLightTitle));
+            addRow(t.calculators.dliResult,
+                UIAPI.formatNumber(plan.light.dli, ctx.lang, 1) + ' mol/m\u00b2/day');
+            const pillCls = plan.light.status === 'ok' ? 'status-pill pill-ok' :
+                plan.light.status === 'none' ? 'status-pill' : 'status-pill pill-warn';
+            const pillText = plan.light.status === 'ok' ? t.calculators.dliWithin :
+                plan.light.status === 'high' ? t.calculators.dliAbove : t.calculators.dliBelow;
+            container.appendChild(UIAPI.el('span', pillCls, pillText));
+        }
+
+        if (plan.stagger.length) {
+            container.appendChild(UIAPI.el('h4', 'calc-result-title', t.calculators.designerStaggerTitle));
+            const staggerList = UIAPI.el('ul', 'source-list');
+            plan.stagger.forEach((entry) => {
+                staggerList.appendChild(UIAPI.el('li', null, UIAPI.formatDate(entry.iso, ctx.lang)));
+            });
+            container.appendChild(staggerList);
+        }
+
+        container.appendChild(UIAPI.el('h4', 'calc-result-title', t.calculators.designerEconTitle));
+        addRow(t.calculators.designerYield,
+            plan.economics.yieldKg !== null ? UIAPI.formatNumber(plan.economics.yieldKg, ctx.lang, 1) + ' kg' : '\u2014');
+        if (plan.economics.complete) {
+            addRow(t.calculators.designerSeedCost, '\u20ac ' + UIAPI.formatNumber(plan.economics.plantCost, ctx.lang, 2));
+            addRow(t.calculators.designerRevenue, '\u20ac ' + UIAPI.formatNumber(plan.economics.revenue, ctx.lang, 2));
+            if (plan.economics.balance >= 0) {
+                container.appendChild(UIAPI.el('span', 'status-pill pill-ok',
+                    t.calculators.designerBalance + ' \u20ac ' + UIAPI.formatNumber(plan.economics.balance, ctx.lang, 2)));
+            } else {
+                container.appendChild(UIAPI.el('span', 'status-pill pill-warn',
+                    t.calculators.designerBalance + ' \u20ac ' + UIAPI.formatNumber(plan.economics.balance, ctx.lang, 2)));
+            }
+        } else {
+            container.appendChild(UIAPI.el('p', 'note-text', t.calculators.designerEconHint));
+        }
+    }
+
     /* ---- layer ---- */
 
     function render(ctx) {
@@ -421,6 +688,7 @@
         section.appendChild(renderDoseCalc(ctx));
         section.appendChild(renderDliCalc(ctx));
         section.appendChild(renderPlanner(ctx));
+        section.appendChild(renderDesigner(ctx));
         return section;
     }
 
@@ -433,6 +701,7 @@
         updateDoseResults(ctx);
         updateDliResults(ctx);
         updatePlanResults(ctx);
+        updateDesignerResults(ctx);
     }
 
     const layer = {

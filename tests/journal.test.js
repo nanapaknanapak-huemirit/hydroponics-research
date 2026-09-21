@@ -37,6 +37,11 @@ equal(grow.startIso, '2026-09-20', 'createGrow startIso normalized');
 equal(grow.readings.length, 0, 'createGrow starts with no readings');
 equal(typeof grow.id === 'string' && grow.id.length > 0, true, 'createGrow generates an id');
 
+const sysGrow = Journal.createGrow({ cropId: 'lettuce', systemId: 'sys-a', system: 'nft' });
+equal(sysGrow.systemId, 'sys-a', 'createGrow stores systemId');
+equal(sysGrow.system, 'nft', 'createGrow keeps system type');
+equal(Journal.createGrow({ cropId: 'lettuce' }).systemId, '', 'createGrow defaults systemId empty');
+
 const invalid = Journal.createGrow({ startIso: 'not-a-date' });
 equal(Journal.daysBetween(invalid.startIso, invalid.startIso), 0, 'invalid startIso falls back to today');
 
@@ -139,6 +144,9 @@ const bad = Journal.hydrate({ grows: [{ readings: [] }] });
 equal(bad.grows.length, 0, 'hydrate drops grow without cropId');
 const partial = Journal.hydrate({ grows: [{ cropId: 'radish' }] });
 equal(partial.grows[0].readings.length, 0, 'hydrate grow without readings');
+const sysRound = Journal.hydrate({ grows: [{ cropId: 'radish', systemId: 'sys-a' }] });
+equal(sysRound.grows[0].systemId, 'sys-a', 'hydrate preserves systemId');
+equal(Journal.hydrate({ grows: [{ cropId: 'radish' }] }).grows[0].systemId, '', 'hydrate defaults systemId empty');
 
 // --- end-to-end -----------------------------------------------------------------------
 const e2e = Journal.createGrow({ cropId: 'lettuce', name: 'Test', startIso: '2026-09-20' });

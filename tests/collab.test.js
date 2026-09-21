@@ -136,6 +136,12 @@ equal(Collab.mergeGrows(local, []).added.length, 0, 'no added grows for empty in
 const noop = Collab.mergeGrows(local, [makeGrow('', '', '')]);
 ok(noop.added.length === 0, 'grow without cropId not added');
 
+const sysPeer = makeGrow('sysp', 'radish', '2026-09-10');
+sysPeer.systemId = 'sys-a';
+const sysMerged = Collab.mergeGrows([], [sysPeer]);
+equal(sysMerged.added[0].systemId, 'sys-a', 'mergeGrows preserves systemId');
+equal(sysMerged.added[0].system, sysPeer.system, 'mergeGrows preserves system type');
+
 // --- mergeGrows is non-mutating ------------------------------------------------------
 const beforeLocalCount = local.length;
 const beforePeerId = peerGrow.id;

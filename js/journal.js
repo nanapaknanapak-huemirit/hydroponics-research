@@ -37,7 +37,7 @@
 
     /**
      * Create a grow container for readings.
-     * @param {Object} opts - {cropId, name, startIso, system, notes, id?, createdAt?}
+     * @param {Object} opts - {cropId, name, startIso, system, systemId, notes, id?, createdAt?}
      * @returns {Object}
      */
     function createGrow(opts) {
@@ -48,6 +48,7 @@
             name: String(o.name || '').trim(),
             startIso: toDayIso(o.startIso),
             system: String(o.system || ''),
+            systemId: String(o.systemId || ''),
             notes: String(o.notes || '').trim(),
             createdAt: o.createdAt || new Date().toISOString(),
             readings: []
@@ -286,6 +287,7 @@
                 name: g.name,
                 startIso: g.startIso,
                 system: g.system,
+                systemId: g.systemId,
                 notes: g.notes,
                 createdAt: g.createdAt
             });
