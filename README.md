@@ -9,7 +9,9 @@ germination/harvest windows and calibration dates) with a calendar, optional
 desktop notifications and a "my systems" list. The interface ships in English
 and Dutch and has a built-in Translations tab: translate it into any language
 yourself (starts from English or Dutch, or another installed translation),
-with JSON pack export/import and right-to-left support.
+with JSON pack export/import and right-to-left support. A dismissible banner
+reminds visitors that bots/AI scrapers consume the pages too — every value
+stays cited, never meant for blind copying.
 
 <div align="center">
 
@@ -118,6 +120,7 @@ hydroponics-research/
 │   ├── review.js       # Review model: grow/reading annotations (no DOM)
 │   ├── tasks.js        # Task engine: schedules, calendar, notification dedupe (no DOM)
 │   ├── translations.js # Translation model: packs, overlay, RTL, import/export (no DOM)
+│   ├── botnotice.js    # Dismissable bot-scrape notice state (no DOM)
 │   ├── i18n.js         # EN/NL UI strings
 │   ├── ui.js           # DOM/formatting helpers
 │   └── layers/         # Feature layers, one file per tab (registered with the core)
@@ -142,6 +145,8 @@ hydroponics-research/
 ├── tests/review.test.js  # Review unit tests (Node)
 ├── tests/systems.test.js # Systems + planner data unit tests (Node)
 ├── tests/tasks.test.js   # Task engine + dedupe unit tests (Node)
+├── tests/translations.test.js  # Translations model unit tests (Node)
+├── tests/botnotice.test.js     # Bot-notice model unit tests (Node)
 └── qrcode.svg          # QR code for the live URL
 ```
 
@@ -169,6 +174,7 @@ node tests/collab.test.js
 node tests/review.test.js
 node tests/tasks.test.js
 node tests/translations.test.js
+node tests/botnotice.test.js
 ```
 
 Tests also run automatically on push (GitHub Actions).

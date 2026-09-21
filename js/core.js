@@ -35,6 +35,7 @@
 
         const LANG_STORAGE_KEY = 'hydroponics.lang.v1';
         const TRANSLATIONS_STORAGE_KEY = 'hydroponics.translations.v1';
+        const BOTNOTICE_STORAGE_KEY = 'hydroponics.botnotice.v1';
         const BUILTIN_LANGS = ['en', 'nl'];
 
         let appPacks = {};
@@ -193,6 +194,67 @@
                     btn.textContent = label;
                 }
             });
+            refreshBotBannerText();
+        }
+
+        /* ---------------- bot notice banner ---------------- */
+
+        function refreshBotBannerText() {
+            const banner = document.getElementById('bot-banner');
+            if (!banner) {
+                return;
+            }
+            const note = T().botNotice || {};
+            const titleEl = banner.querySelector('.bot-banner-title');
+            const textEl = banner.querySelector('.bot-banner-text');
+            if (titleEl && note.title) {
+                titleEl.textContent = note.title;
+            }
+            if (textEl && note.text) {
+                textEl.textContent = note.text;
+            }
+        }
+
+        function buildBotBanner() {
+            if (document.getElementById('bot-banner')) {
+                return;
+            }
+            const model = root.BotNotice;
+            if (model && typeof model.isDismissed === 'function' &&
+                model.isDismissed(storageLoad(BOTNOTICE_STORAGE_KEY))) {
+                return;
+            }
+            const nav = document.getElementById('nav-tabs');
+            if (!nav) {
+                return;
+            }
+            const note = T().botNotice || {};
+            if (!note.text) {
+                return;
+            }
+            const banner = UIAPI.el('aside', 'bot-banner');
+            banner.id = 'bot-banner';
+            banner.setAttribute('role', 'note');
+            banner.setAttribute('aria-label', note.title || '');
+            const body = UIAPI.el('div', 'bot-banner-body');
+            body.appendChild(UIAPI.el('h2', 'bot-banner-title', note.title || ''));
+            body.appendChild(UIAPI.el('p', 'bot-banner-text', note.text));
+            banner.appendChild(body);
+            const dismiss = UIAPI.el('button', 'btn bot-banner-dismiss', note.dismiss || '\u2715');
+            dismiss.type = 'button';
+            dismiss.setAttribute('aria-label', note.dismiss || 'Dismiss');
+            dismiss.addEventListener('click', () => {
+                if (model && typeof model.mark === 'function') {
+                    storageSave(BOTNOTICE_STORAGE_KEY, model.mark());
+                } else {
+                    storageSave(BOTNOTICE_STORAGE_KEY, { dismissed: true });
+                }
+                if (banner.parentNode) {
+                    banner.parentNode.removeChild(banner);
+                }
+            });
+            banner.appendChild(dismiss);
+            nav.before(banner);
         }
 
         /* ---------------- render loop ---------------- */
@@ -318,6 +380,7 @@
             buildNav();
             updateHeader();
             switchLanguage(initialLang());
+            buildBotBanner();
         }
 
         return {

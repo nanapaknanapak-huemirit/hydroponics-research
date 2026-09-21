@@ -852,6 +852,45 @@ footer {
     z-index: 40;
 }
 
+/* ---------- bot notice banner ---------- */
+
+.bot-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--warn);
+    border-radius: var(--radius);
+    background: var(--surface);
+    animation: bot-banner-in 0.35s ease;
+}
+
+.bot-banner-body {
+    flex: 1 1 auto;
+}
+
+.bot-banner-title {
+    font-size: 0.95rem;
+    margin: 0 0 2px;
+}
+
+.bot-banner-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.bot-banner-dismiss {
+    flex: 0 0 auto;
+}
+
+@keyframes bot-banner-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: none; }
+}
+
 /* ---------- responsive / motion ---------- */
 
 @media (max-width: 640px) {
@@ -869,5 +908,9 @@ footer {
 @media (prefers-reduced-motion: reduce) {
     .crop-card {
         transition: none;
+    }
+
+    .bot-banner {
+        animation: none;
     }
 }

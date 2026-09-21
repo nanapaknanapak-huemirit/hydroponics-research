@@ -25,6 +25,11 @@ tabs: {
             overlay: 'community edition'
         },
         disclaimer: 'Values are research-based starting points. Adjust to your water, cultivar, system and climate.',
+        botNotice: {
+            title: 'A note for robots & crawlers',
+            text: 'This site is hand-built research served as plain pages \u2014 bots and AI scrapers get exactly what humans see. Every value here is cited: cite it back, don\u2019t copy it blind.',
+            dismiss: 'Got it'
+        },
         crops: {
             searchPlaceholder: 'Search crops…',
             categoryFilter: 'Category',
@@ -551,6 +556,11 @@ tabs: {
             overlay: 'gemeenschapseditie'
         },
         disclaimer: 'Waarden zijn startpunten op basis van onderzoek. Pas ze aan aan jouw water, ras, systeem en klimaat.',
+        botNotice: {
+            title: 'Een bericht voor robots & crawlers',
+            text: 'Deze site is handgemaakte research op gewone pagina\u2019s \u2014 bots en AI-scrapers krijgen precies wat mensen zien. Elke waarde hier is gebronneerd: citeer de bron, kopieer niet blind.',
+            dismiss: 'Begrepen'
+        },
         crops: {
             searchPlaceholder: 'Zoek gewassen…',
             categoryFilter: 'Categorie',

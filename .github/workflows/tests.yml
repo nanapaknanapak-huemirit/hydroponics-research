@@ -13,4 +13,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: node tests/calc.test.js && node tests/core.test.js && node tests/journal.test.js && node tests/calibration.test.js && node tests/insights.test.js && node tests/designer.test.js && node tests/collab.test.js && node tests/review.test.js && node tests/systems.test.js && node tests/tasks.test.js && node tests/translations.test.js
+      - run: node tests/calc.test.js && node tests/core.test.js && node tests/journal.test.js && node tests/calibration.test.js && node tests/insights.test.js && node tests/designer.test.js && node tests/collab.test.js && node tests/review.test.js && node tests/systems.test.js && node tests/tasks.test.js && node tests/translations.test.js && node tests/botnotice.test.js
