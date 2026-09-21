@@ -60,6 +60,7 @@ header {
 
 .language-selector {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
     margin-top: 12px;
@@ -721,6 +722,134 @@ footer {
 
 .system-form > button.btn {
     margin-top: 6px;
+}
+
+/* ---------- translations ---------- */
+
+.trans-lang-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 12px 0;
+}
+
+.trans-lang-row {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+}
+
+.trans-lang-main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 10px;
+}
+
+.trans-lang-main .task-sub {
+    font-size: 0.85rem;
+}
+
+.progress-track {
+    height: 8px;
+    background: var(--surface-alt);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+.trans-create {
+    margin-top: 16px;
+}
+
+.trans-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.trans-spacer {
+    flex: 1 1 8px;
+}
+
+.trans-search {
+    min-width: 180px;
+    flex: 1 1 220px;
+}
+
+.trans-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.trans-row {
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+}
+
+.trans-row-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.trans-path {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.trans-ref {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    border-left: 3px solid var(--border);
+    padding-left: 8px;
+}
+
+.trans-input {
+    width: 100%;
+}
+
+.trans-tokens {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: var(--surface-alt);
+    color: var(--text-muted);
+}
+
+.trans-import-preview {
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    margin-top: 10px;
+}
+
+.trans-note {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+    padding: 10px 16px;
+    z-index: 40;
 }
 
 /* ---------- responsive / motion ---------- */

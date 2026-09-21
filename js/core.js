@@ -33,6 +33,12 @@
         const Registry = root.Registry || {};
         const registry = Registry.create ? Registry.create() : null;
 
+        const LANG_STORAGE_KEY = 'hydroponics.lang.v1';
+        const TRANSLATIONS_STORAGE_KEY = 'hydroponics.translations.v1';
+        const BUILTIN_LANGS = ['en', 'nl'];
+
+        let appPacks = {};
+
         const T = () => UI_STRINGS[AppState.lang];
 
         /* ---------------- nav ---------------- */
@@ -75,13 +81,98 @@
         }
 
         function switchLanguage(lang) {
+            if (!Object.prototype.hasOwnProperty.call(UI_STRINGS, lang)) {
+                lang = 'en';
+            }
             AppState.lang = lang;
             document.documentElement.lang = lang;
+            const tr = root.Translations;
+            document.documentElement.dir = tr && typeof tr.direction === 'function' ? tr.direction(lang) : 'ltr';
+            storageSave(LANG_STORAGE_KEY, { lang: lang });
             document.querySelectorAll('.lang-btn').forEach((btn) => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
             updateHeader();
             render();
+        }
+
+        /* ---------------- translation packs ---------------- */
+
+        /**
+         * Rebuild the merged string tree for every installed pack, keep the
+         * pristine built-ins as overlay bases, and refresh the language
+         * selector. Does not re-render the active tab (the Translations layer
+         * calls this on every edit so live feedback never loses focus).
+         */
+        function applyTranslations() {
+            const tr = root.Translations;
+            appPacks = tr && typeof tr.hydrate === 'function'
+                ? tr.hydrate(storageLoad(TRANSLATIONS_STORAGE_KEY))
+                : {};
+            const built = tr && typeof tr.buildAll === 'function' ? tr.buildAll(appPacks) : {};
+            Object.keys(built).forEach((code) => {
+                UI_STRINGS[code] = built[code];
+            });
+            Object.keys(UI_STRINGS).forEach((code) => {
+                if (BUILTIN_LANGS.indexOf(code) !== -1 || built[code]) {
+                    return;
+                }
+                delete UI_STRINGS[code];
+            });
+            buildLangButtons();
+            updateHeader();
+        }
+
+        function refreshLanguages() {
+            applyTranslations();
+            render();
+        }
+
+        function buildLangButtons() {
+            const selector = document.querySelector('.language-selector');
+            if (!selector) {
+                return;
+            }
+            const label = UIAPI.el('span', 'lang-label', T().lang.label);
+            label.id = 'lang-label';
+            const nodes = [label];
+            const tr = root.Translations;
+            const langs = tr && typeof tr.availableLangs === 'function'
+                ? tr.availableLangs(appPacks)
+                : [{ code: 'en', label: 'EN' }, { code: 'nl', label: 'NL' }];
+            langs.forEach((item) => {
+                const btn = UIAPI.el('button', 'lang-btn', item.label);
+                btn.type = 'button';
+                btn.dataset.lang = item.code;
+                btn.title = item.code + (item.overlay ? ' (' + T().lang.overlay + ')' : '');
+                btn.classList.toggle('active', item.code === AppState.lang);
+                btn.addEventListener('click', () => switchLanguage(item.code));
+                nodes.push(btn);
+            });
+            selector.replaceChildren.apply(selector, nodes);
+        }
+
+        function initialLang() {
+            const stored = storageLoad(LANG_STORAGE_KEY);
+            if (stored && typeof stored.lang === 'string' &&
+                Object.prototype.hasOwnProperty.call(UI_STRINGS, stored.lang)) {
+                return stored.lang;
+            }
+            const tr = root.Translations;
+            if (tr && typeof tr.availableLangs === 'function' &&
+                typeof window !== 'undefined' && window.navigator && window.navigator.language) {
+                const nav = String(window.navigator.language);
+                const codes = tr.availableLangs(appPacks).map((item) => item.code.toLowerCase());
+                const exact = nav.toLowerCase();
+                if (codes.indexOf(exact) !== -1) {
+                    return exact;
+                }
+                const base = exact.split('-')[0];
+                if (codes.indexOf(base) !== -1) {
+                    return base;
+                }
+            }
+            return 'en';
         }
 
         function updateHeader() {
@@ -218,13 +309,15 @@
             const first = registry.all()[0];
             AppState.tab = first ? first.id : null;
 
-            document.querySelectorAll('.lang-btn').forEach((btn) => {
-                btn.addEventListener('click', () => switchLanguage(btn.dataset.lang));
-            });
+            const tr = root.Translations;
+            if (tr && typeof tr.setDefaultBases === 'function') {
+                tr.setDefaultBases({ en: UI_STRINGS.en, nl: UI_STRINGS.nl });
+            }
 
+            applyTranslations();
             buildNav();
             updateHeader();
-            render();
+            switchLanguage(initialLang());
         }
 
         return {
@@ -233,6 +326,8 @@
             render: render,
             switchTab: switchTab,
             switchLanguage: switchLanguage,
+            applyTranslations: applyTranslations,
+            refreshLanguages: refreshLanguages,
             updateHeader: updateHeader,
             boot: boot,
             getLang: () => AppState.lang,

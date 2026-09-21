@@ -25,11 +25,19 @@
 
     /**
      * Locale string for the active language (for number/date formatting).
-     * @param {string} lang - 'en' or 'nl'
+     * Built-in codes map to regional locales; any other code is passed through
+     * as a BCP-47 tag for Intl to resolve (falling back gracefully).
+     * @param {string} lang - language code
      * @returns {string}
      */
     function locale(lang) {
-        return lang === 'nl' ? 'nl-NL' : 'en-US';
+        if (lang === 'en') {
+            return 'en-US';
+        }
+        if (lang === 'nl') {
+            return 'nl-NL';
+        }
+        return String(lang || '').trim() || 'en-US';
     }
 
     /**
