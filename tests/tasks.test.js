@@ -92,6 +92,43 @@ equal(remain.length, tasks.length, 'notifications dedupe per day');
 // --- ids deterministic ----------------------------------------------------------
 equal(Tasks.taskId('check', 'g1', null, '2026-10-04'), 'check|g1|g|2026-10-04', 'task id deterministic');
 
+// --- recurrence survives grows that started long before the window ------------
+// Regression: the walk used to be capped at MAX_OCCURRENCES occurrences from the
+// grow start, so with the 3-day check interval every grow older than ~600 days
+// silently lost its recurring tasks in later windows (and calendar months).
+const ancient = Journal.createGrow({ cropId: 'lettuce', name: 'Ancient tray', startIso: '2020-01-01' });
+const ancientTasks = Tasks.tasksOn({
+    grows: [ancient], cropsById: cropsById,
+    calibrationState: { meters: { ec: { lastDate: null }, ph: { lastDate: null } } },
+    todayIso: '2026-10-01', lookaheadDays: 30
+});
+const ancientChecks = ancientTasks.filter((t) => t.kind === 'check');
+equal(ancientChecks.length, 10, 'old grow keeps its 3-day checks in the window');
+equal(ancientChecks[0].dateIso, '2026-10-02', 'first old-grow check lands on the 3-day grid');
+equal(ancientChecks[0].offsetDays % 3, 0, 'old-grow check offset stays on the interval grid');
+equal(ancientChecks[ancientChecks.length - 1].dateIso, '2026-10-29', 'last old-grow check inside window');
+equal(ancientTasks.filter((t) => t.kind === 'change').length, 2, 'old grow keeps 14-day changes');
+equal(ancientTasks.filter((t) => t.kind === 'topup').length, 4, 'old grow keeps 7-day top-ups');
+equal(ancientTasks.length, 16, 'old grow total matches a fresh grow in the same window');
+
+const ancientMonth = Tasks.monthTasks({
+    grows: [ancient], cropsById: cropsById, calibrationState: { meters: {} },
+    year: 2026, month: 9
+});
+equal(ancientMonth.length, 16, 'calendar month also keeps tasks for old grows');
+equal(ancientMonth.filter((t) => t.kind === 'check').length, 10, 'calendar month keeps old-grow checks');
+
+// A window that lies entirely before the grow starts yields nothing.
+const future = Journal.createGrow({ cropId: 'lettuce', name: 'Future', startIso: '2027-01-01' });
+equal(Tasks.tasksOn({
+    grows: [future], cropsById: cropsById, calibrationState: { meters: {} },
+    todayIso: '2026-10-01', lookaheadDays: 30
+}).length, 0, 'no tasks before the grow starts');
+equal(Tasks.monthTasks({
+    grows: [future], cropsById: cropsById, calibrationState: { meters: {} },
+    year: 2026, month: 9
+}).length, 0, 'no month tasks before the grow starts');
+
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) {
     process.exit(1);

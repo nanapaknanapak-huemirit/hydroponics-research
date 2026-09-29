@@ -74,6 +74,9 @@
 
     /**
      * Expand a schedule into instantiated tasks within [startIso, endIso].
+     * Recurring schedules jump straight to the first occurrence inside the
+     * window (see firstOffsetInWindow), so MAX_OCCURRENCES bounds the
+     * occurrences *within* the window — never the ones skipped before it.
      * @param {Object} schedule
      * @param {string} startIso - grow start date
      * @param {string} minIso - inclusive lower bound
@@ -91,8 +94,7 @@
             }
             return out;
         }
-        const firstOffset = schedule.offsetDays;
-        let offset = firstOffset;
+        let offset = firstOffsetInWindow(startIso, schedule.offsetDays, schedule.intervalDays, minIso);
         let count = 0;
         while (count < MAX_OCCURRENCES) {
             const dateIso = calc().addDays(startIso, offset);
@@ -106,6 +108,42 @@
             count += 1;
         }
         return out;
+    }
+
+    /**
+     * Smallest occurrence offset (on the interval grid, >= offsetDays) whose
+     * date lands at or after minIso.
+     *
+     * Walking every occurrence from the grow start instead of jumping here
+     * made MAX_OCCURRENCES bound the whole walk: with the 3-day check interval
+     * the loop stopped after ~600 days, so a grow started earlier than that
+     * silently lost its recurring tasks in every later window.
+     * @param {string} startIso
+     * @param {number} offsetDays - the schedule's first offset from startIso
+     * @param {number} intervalDays - recurrence interval (> 0)
+     * @param {string} minIso - window lower bound
+     * @returns {number} offset in days from startIso
+     */
+    function firstOffsetInWindow(startIso, offsetDays, intervalDays, minIso) {
+        const firstIso = calc().addDays(startIso, offsetDays);
+        if (firstIso >= minIso) {
+            return offsetDays;
+        }
+        const gap = isoDaysBetween(firstIso, minIso);
+        const steps = Math.ceil(gap / intervalDays);
+        return offsetDays + steps * intervalDays;
+    }
+
+    /**
+     * Whole days between two ISO dates, UTC-safe.
+     * @param {string} fromIso
+     * @param {string} toIso
+     * @returns {number}
+     */
+    function isoDaysBetween(fromIso, toIso) {
+        const from = new Date(fromIso + 'T00:00:00Z');
+        const to = new Date(toIso + 'T00:00:00Z');
+        return Math.round((to - from) / 86400000);
     }
 
     function makeTask(kind, baseId, systemId, dateIso, offsetDays) {
