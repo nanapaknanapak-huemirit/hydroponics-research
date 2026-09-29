@@ -177,6 +177,31 @@ const skipGrow = makeGrow('x1', 'alien-crop', '2026-09-01');
 equal(Collab.compareRows({ grows: [skipGrow], crops: [lettuce], peerGrowIds: [], todayIso: '2026-09-20' }).length, 0, 'unknown crop skipped');
 equal(Collab.compareRows({ grows: [], crops: [lettuce] }).length, 0, 'no grows -> no groups');
 
+// --- import error codes map to real UI strings (regression: blank note) --------
+const UI_STRINGS = require('../js/i18n.js');
+Object.keys(Collab.ERROR_KEYS).forEach((code) => {
+    const key = Collab.errorKey(code);
+    equal(key, Collab.ERROR_KEYS[code], 'errorKey maps ' + code);
+    ['en', 'nl'].forEach((lang) => {
+        const text = UI_STRINGS[lang].collab[key];
+        ok(typeof text === 'string' && text.length > 0,
+            'collab.' + key + ' exists in ' + lang + ' (import error ' + code + ')');
+    });
+});
+equal(Collab.errorKey('mystery-code'), 'invalidJson', 'unknown error code falls back to invalidJson');
+equal(Collab.errorKey(undefined), 'invalidJson', 'missing error code falls back to invalidJson');
+
+// Every code parseSharePack can actually return must resolve to an i18n key.
+['{not json',
+    JSON.stringify({ format: 'something-else', version: 1 }),
+    JSON.stringify({ format: Collab.FORMAT, version: 99 })
+].forEach((text) => {
+    const res = Collab.parseSharePack(text);
+    ok(!res.ok, 'malformed pack rejected: ' + text.slice(0, 24));
+    ok(Object.prototype.hasOwnProperty.call(Collab.ERROR_KEYS, res.error),
+        'error code ' + res.error + ' covered by ERROR_KEYS');
+});
+
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) {
     process.exit(1);

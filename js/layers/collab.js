@@ -167,7 +167,9 @@
         reader.onload = () => {
             const result = Collab.parseSharePack(String(reader.result || ''));
             if (!result.ok) {
-                note = { text: t.collab[result.error], ok: false };
+                // Resolve the message through the model's error -> i18n-key map;
+                // the raw error code is kebab-case and matches no string key.
+                note = { text: t.collab[Collab.errorKey(result.error)] || t.collab.invalidJson, ok: false };
                 pending = null;
             } else {
                 note = null;

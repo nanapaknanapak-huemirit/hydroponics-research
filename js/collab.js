@@ -7,8 +7,24 @@
 (function (root) {
     'use strict';
 
-    const FORMAT = 'hydroponics-share-pack';
-    const PACK_VERSION = 1;
+const FORMAT = 'hydroponics-share-pack';
+const PACK_VERSION = 1;
+
+/**
+ * I18n key per parse error code. The layer resolves the message through this
+ * map instead of building the key itself, so a renamed string can never blank
+ * the error note again (that is how 'invalid-json' went missing: the layer
+ * looked up the raw error code, the strings live under camelCase keys).
+ */
+const ERROR_KEYS = {
+    'invalid-json': 'invalidJson',
+    'bad-format': 'badFormat',
+    'bad-version': 'badVersion'
+};
+
+function errorKey(code) {
+    return ERROR_KEYS[code] || 'invalidJson';
+}
 
     function journal() {
         if (typeof module !== 'undefined' && module.exports) {
@@ -202,6 +218,8 @@
     const Collab = {
         FORMAT: FORMAT,
         PACK_VERSION: PACK_VERSION,
+        ERROR_KEYS: ERROR_KEYS,
+        errorKey: errorKey,
         buildSharePack: buildSharePack,
         parseSharePack: parseSharePack,
         stableStringify: stableStringify,
